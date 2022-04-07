@@ -1,51 +1,50 @@
 package com.edteam.curso.controllers;
 
-import com.edteam.curso.models.User;
-import com.edteam.curso.services.UserService;
+import com.edteam.curso.models.Permiso;
+import com.edteam.curso.services.PermisoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("user")
-public class UserController {
+@RequestMapping("permiso")
+public class PermisoController {
     /*
     - permisoService: Es la variable que representa la capa de servicios, cuya clase está ubicada enel package "services",
      Esta es necesaria, ya que de poner toda la lógica en el controller se hace insostenible en el tiempo.
     - @Autowired : Me carga el objeto automáticamente, funciona similar a un singleton. Acá hacemos la inyección de dependencias.
     */
     @Autowired
-    UserService userService;
+    PermisoService permisoService;
 
-    //Trae todos los usuarios
+    //Trae todos los permisos
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    List<User> getAll(){
-        return userService.getAll();
+    List<Permiso> getAll(){
+        return permisoService.getAll();
     }
 
-    //Trae un usuario
+    //Trae un permiso
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    User get(@PathVariable long id){
-        return userService.get(id);
+    Permiso get(@PathVariable long id){
+        return permisoService.get(id);
     }
 
-    //Registra un usuario
+    //Registra un permiso
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    User register(@RequestBody User user){
-        return userService.register(user);
+    Permiso register(@RequestBody Permiso permiso){
+        return permisoService.register(permiso);
     }
 
-    //Modifica usuario
+    //Modifica un permisos
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    User update(@RequestBody User user){
-        return userService.update(user);
+    Permiso update(@RequestBody Permiso permiso){
+        return permisoService.update(permiso);
     }
 
-    //elimina un usuario
+    //Elimina un permiso
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     void delete(@PathVariable long id){
-        userService.delete(id);
+        permisoService.delete(id);
     }
 }

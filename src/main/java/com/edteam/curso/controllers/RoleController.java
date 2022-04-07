@@ -1,51 +1,50 @@
 package com.edteam.curso.controllers;
 
-import com.edteam.curso.models.User;
-import com.edteam.curso.services.UserService;
+import com.edteam.curso.models.Role;
+import com.edteam.curso.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("user")
-public class UserController {
+@RequestMapping("role")
+public class RoleController {
     /*
     - permisoService: Es la variable que representa la capa de servicios, cuya clase está ubicada enel package "services",
      Esta es necesaria, ya que de poner toda la lógica en el controller se hace insostenible en el tiempo.
     - @Autowired : Me carga el objeto automáticamente, funciona similar a un singleton. Acá hacemos la inyección de dependencias.
     */
     @Autowired
-    UserService userService;
+    RoleService roleService;
 
-    //Trae todos los usuarios
+    //Trae todos los roles
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    List<User> getAll(){
-        return userService.getAll();
+    List<Role> getAll(){
+        return roleService.getAll();
     }
 
-    //Trae un usuario
+    //Trae un role
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    User get(@PathVariable long id){
-        return userService.get(id);
+    Role get(@PathVariable long id){
+        return roleService.get(id);
     }
 
-    //Registra un usuario
+    //Registrar un role
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    User register(@RequestBody User user){
-        return userService.register(user);
+    Role register(@RequestBody Role role){
+        return roleService.register(role);
     }
 
-    //Modifica usuario
+    //Modificar un role
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    User update(@RequestBody User user){
-        return userService.update(user);
+    Role update(@RequestBody Role role){
+        return roleService.update(role);
     }
 
-    //elimina un usuario
+    //Elimina un role
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     void delete(@PathVariable long id){
-        userService.delete(id);
+        roleService.delete(id);
     }
 }
