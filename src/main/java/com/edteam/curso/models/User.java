@@ -27,7 +27,8 @@ import java.util.Date;
 public class User extends BaseEntity {
 
     //@JsonIgnore : Permite que al traer el json del usuario no se muestre la contraseña.
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Solo escritura
     @Column(name = "password")
     @Getter @Setter
     private String password;

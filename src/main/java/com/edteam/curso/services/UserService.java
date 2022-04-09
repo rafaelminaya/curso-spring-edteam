@@ -2,6 +2,8 @@ package com.edteam.curso.services;
 
 import com.edteam.curso.dao.UserDao;
 import com.edteam.curso.models.User;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +31,10 @@ public class UserService {
         return  userDao.get(id);
     }
 
-    public User register(@RequestBody User user){
-        return userDao.register(user);
+    public void register(@RequestBody User user){
+        String hash = generarHash(user.getPassword());
+        user.setPassword(hash);
+        userDao.register(user);
     }
 
     public User update(User user){
@@ -39,6 +43,16 @@ public class UserService {
 
     public void delete(@PathVariable long id){
         userDao.delete(id);
+    }
+
+    //Función que genera el hash a partir del password que recibe.
+    private String generarHash(String password){
+        Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+        //1 : Este primer argumento, indica la cantidad de iteraciones. Mientras más iteraciones más seguro pero gasta más procesos
+        return argon2.hash(1, 1024 * 1, 1, password);
+    }
+    public User login(User user){
+        return userDao.login(user);
     }
 
 }
