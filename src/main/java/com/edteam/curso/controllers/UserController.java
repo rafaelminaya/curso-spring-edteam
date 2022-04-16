@@ -6,7 +6,6 @@ import com.edteam.curso.utils.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class UserController {
 
     @Autowired
     private JWTUtil jwtUtil;
-    /*
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     List<User> getAll(@RequestHeader(value = "Authorization") String token){
         if (!validarToken(token)){
@@ -33,17 +32,14 @@ public class UserController {
         }
         return userService.getAll();
     }
-    */
-    //Trae todos los usuarios
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    List<User> getAll(){
-
-        return userService.getAll();
-    }
 
     //Trae un usuario
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    User get(@PathVariable long id){
+    User get(@PathVariable long id, @RequestHeader(value = "Authorization") String token){
+        if (!validarToken(token)){
+            return null;
+        }
+
         return userService.get(id);
     }
 
@@ -55,13 +51,21 @@ public class UserController {
 
     //Modifica usuario
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    User update(@RequestBody User user){
+    User update(@RequestBody User user, @RequestHeader(value = "Authorization") String token){
+        if (!validarToken(token)){
+            return null;
+        }
         return userService.update(user);
     }
 
     //elimina un usuario
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    void delete(@PathVariable long id){
+    void delete(@PathVariable long id, @RequestHeader(value = "Authorization") String token){
+
+        if (!validarToken(token)){
+            return;
+        }
+
         userService.delete(id);
     }
 

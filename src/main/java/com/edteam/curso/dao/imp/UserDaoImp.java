@@ -98,7 +98,8 @@ public class UserDaoImp implements UserDao {
         isAutheticated = true;
 
         //Verificamos que haya una contraseña del usuario que se está recibiendo como argumento.
-        if(dto.getPassword().isEmpty()){
+
+        if(!dto.getPassword().isEmpty()){
             Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
             //Comparamos las dos contraseñas. Es decir, el hash del usuario de la BD con el hash del usuario recibido por argumento.
             isAutheticated = argon2.verify(user.getPassword(), dto.getPassword());
